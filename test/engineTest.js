@@ -67,10 +67,15 @@ EngineTest.prototype.testBlackRotation = function(){
 
 EngineTest.prototype.testWhitePlaysWrong = function(){
     var engine = new Engine();
+
     engine.play('a1');
     engine.rotateClockWise('NW');
     engine.changeTurn();
+
     engine.play('a1');
     engine.rotateAntiClockWise('NW');
-    assertException(engine.play('a3'), NotEmptyException);
+    engine.changeTurn();
+    
+    assertException(function(){engine.play('a3')}, "NotEmptyException");
+    assertException(engine.getCurrentPlayer() === 'white');
 }

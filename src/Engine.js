@@ -1,3 +1,8 @@
+function NotEmptyException(message){
+    this.message = message;
+    this.name    = "NotEmptyException";
+}
+
 var Engine = function(){
     var balls;
     var boardSize;
@@ -54,6 +59,11 @@ var Engine = function(){
     this.play = function(coordinates){
         var line   = coordinates.charCodeAt(1) - 49;
         var column = coordinates.charCodeAt(0) - 97;
+
+        if (this.getCase(line, column) != 0) {
+            throw new NotEmptyException("NotEmptyException");
+        }
+
         this.setCase(line, column, this.getCurrentPlayer());
         this.addBall();
     };
