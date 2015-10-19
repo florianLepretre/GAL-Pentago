@@ -33,7 +33,7 @@ EngineTest.prototype.testBallCount = function(){
 EngineTest.prototype.testRotation = function(){
     var engine = new Engine();
     engine.play('a1');
-    engine.rotateClockWise('NW');
+    engine.rotate(0, 0, true);
     assertTrue(engine.getCase(0,0) == 0);
     assertTrue(engine.getCase(0,2) === 'white');
 };
@@ -47,7 +47,7 @@ EngineTest.prototype.testBlackTurn = function(){
 EngineTest.prototype.testBlackPlays = function(){
     var engine = new Engine();
     engine.play('a1');
-    engine.rotateClockWise('NW');
+    engine.rotate(0, 0, true);
     engine.changeTurn();
     engine.play('a1');
     assertTrue(engine.getCase(0,0) === 'black');
@@ -57,10 +57,10 @@ EngineTest.prototype.testBlackPlays = function(){
 EngineTest.prototype.testBlackRotation = function(){
     var engine = new Engine();
     engine.play('a1');
-    engine.rotateClockWise('NW');
+    engine.rotate(0, 0, true);
     engine.changeTurn();
     engine.play('a1');
-    engine.rotateAntiClockWise('NW');
+    engine.rotate(0, 0, false);
     assertTrue(engine.getCase(0,0) === 'white');
     assertTrue(engine.getCase(2,0) === 'black');
 };
@@ -69,13 +69,13 @@ EngineTest.prototype.testWhitePlaysWrong = function(){
     var engine = new Engine();
 
     engine.play('a1');
-    engine.rotateClockWise('NW');
+    engine.rotate(0, 0, true);
     engine.changeTurn();
 
     engine.play('a1');
-    engine.rotateAntiClockWise('NW');
+    engine.rotate(0, 0, false);
     engine.changeTurn();
-    
+
     assertException(function(){engine.play('a3')}, "NotEmptyException");
     assertException(engine.getCurrentPlayer() === 'white');
 }
