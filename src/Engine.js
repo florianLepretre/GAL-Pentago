@@ -58,7 +58,7 @@ var Engine = function(){
         this.addBall();
     };
 
-    this.rotate = function(subBoard){
+    this.rotateClockWise = function(subBoard){
         var size2 = this.getBoardSize()/2;
 
         var tmp   = new Array(size2);
@@ -80,6 +80,38 @@ var Engine = function(){
         for (i = 0; i < size2; i++){
             for (j = 0; j < size2; j++){
                 tmp[i][j] = this.getCase((2-j)+iOffset, i+jOffset);
+            }
+        }
+
+        for (i = 0; i < size2; i++){
+            for (j = 0; j < size2; j++){
+                this.setCase(i+iOffset, j+jOffset, tmp[i][j]);
+            }
+        }
+    };
+
+    this.rotateAntiClockWise = function(subBoard){
+        var size2 = this.getBoardSize()/2;
+
+        var tmp   = new Array(size2);
+        for (var k = 0; k < size2; k++){
+            tmp[k] = new Array(size2);
+        }
+
+        var i, j, iOffset, jOffset;
+
+        switch (subBoard){
+            case 'NW': iOffset = 0;     jOffset = 0;     break;
+            case 'NE': iOffset = 0;     jOffset = size2; break;
+            case 'SW': iOffset = size2; jOffset = 0;     break;
+            case 'SE': iOffset = size2; jOffset = size2; break;
+
+            default: iOffset = jOffset = 0; break;
+        }
+
+        for (i = 0; i < size2; i++){
+            for (j = 0; j < size2; j++){
+                tmp[i][j] = this.getCase(j+iOffset, (2-i)+jOffset);
             }
         }
 
