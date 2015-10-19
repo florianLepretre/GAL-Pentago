@@ -33,7 +33,7 @@ EngineTest.prototype.testBallCount = function(){
 EngineTest.prototype.testRotation = function(){
     var engine = new Engine();
     engine.play('a1');
-    engine.rotate('NW');
+    engine.rotateClockWise('NW');
     assertTrue(engine.getCase(0,0) == 0);
     assertTrue(engine.getCase(0,2) === 'white');
 };
@@ -47,9 +47,20 @@ EngineTest.prototype.testBlackTurn = function(){
 EngineTest.prototype.testBlackPlays = function(){
     var engine = new Engine();
     engine.play('a1');
-    engine.rotate('NW');
+    engine.rotateClockWise('NW');
     engine.changeTurn();
     engine.play('a1');
     assertTrue(engine.getCase(0,0) === 'black');
     assertTrue(engine.getBalls() == 2);
+};
+
+EngineTest.prototype.testBlackRotation = function(){
+    var engine = new Engine();
+    engine.play('a1');
+    engine.rotateClockWise('NW');
+    engine.changeTurn();
+    engine.play('a1');
+    engine.rotateAntiClockWise('NW');
+    assertTrue(engine.getCase(0,0) === 'white');
+    assertTrue(engine.getCase(2,0) === 'black');
 };
