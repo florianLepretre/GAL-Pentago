@@ -64,3 +64,13 @@ EngineTest.prototype.testBlackRotation = function(){
     assertTrue(engine.getCase(0,0) === 'white');
     assertTrue(engine.getCase(2,0) === 'black');
 };
+
+EngineTest.prototype.testWhitePlaysWrong = function(){
+    var engine = new Engine();
+    engine.play('a1');
+    engine.rotateClockWise('NW');
+    engine.changeTurn();
+    engine.play('a1');
+    engine.rotateAntiClockWise('NW');
+    assertException(engine.play('a3'), NotEmptyException);
+}
