@@ -43,3 +43,13 @@ EngineTest.prototype.testBlackTurn = function(){
     engine.changeTurn();
     assertTrue(engine.getCurrentPlayer() === 'black');
 };
+
+EngineTest.prototype.testBlackPlays = function(){
+    var engine = new Engine();
+    engine.play('a1');
+    engine.rotate('NW');
+    engine.changeTurn();
+    engine.play('a1');
+    assertTrue(engine.getCase(0,0) === 'black');
+    assertTrue(engine.getBalls() == 2);
+};
