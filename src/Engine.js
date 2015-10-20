@@ -1,11 +1,13 @@
 function NotEmptyException(message) {
     "use strict";
 
+    //noinspection JSUnusedGlobalSymbols
     this.message = message;
+    //noinspection JSUnusedGlobalSymbols
     this.name = "NotEmptyException";
 }
 
-var Engine = function () {
+var Engine = function () { // jshint ignore:line
     "use strict";
 
     var that = this,
