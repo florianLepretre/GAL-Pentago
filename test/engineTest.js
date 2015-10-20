@@ -188,3 +188,8 @@ EngineTest.prototype.testBlackWins = function () {
 
     assertTrue(engine.getWinner() === 'black');
 };
+
+EngineTest.prototype.testBlackStarts = function () {
+    var engine = new Engine(false);
+    assertTrue(engine.getCurrentPlayer() === 'black');
+};
