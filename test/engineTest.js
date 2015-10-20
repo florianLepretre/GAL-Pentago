@@ -128,5 +128,43 @@ EngineTest.prototype.testWhiteBlackPlay = function () {
     assertTrue(engine.getCase(2,1) === 'black');
     assertTrue(engine.getCase(2,2) === 'black');
     assertTrue(engine.getCase(2,3) === 'black');
+};
 
+EngineTest.prototype.testWhiteWins = function () {
+    var engine = new Engine();
+
+    engine.play('a1');
+    engine.rotate(0, 0, true);
+    engine.changeTurn();
+
+    engine.play('a1');
+    engine.rotate(0, 0, false);
+    engine.changeTurn();
+
+    engine.play('b1');
+    engine.rotate(0, 0, true);
+    engine.changeTurn();
+
+    engine.play('a2');
+    engine.rotate(0, 0, false);
+    engine.changeTurn();
+
+    engine.play('c1');
+    engine.rotate(0, 0, true);
+    engine.changeTurn();
+
+    engine.play('a3');
+    engine.rotate(0, 0, false);
+    engine.changeTurn();
+
+    engine.play('d1');
+    engine.rotate(0, 1, false);
+    engine.changeTurn();
+
+    engine.play('f3');
+    engine.rotate(0, 1, true);
+    engine.changeTurn();
+
+    engine.play('e1');
+    assertTrue(engine.getWinner() === 'white');
 };
