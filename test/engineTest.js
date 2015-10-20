@@ -168,3 +168,23 @@ EngineTest.prototype.testWhiteWins = function () {
     engine.play('e1');
     assertTrue(engine.getWinner() === 'white');
 };
+
+EngineTest.prototype.testBlackWins = function () {
+    var engine = new Engine();
+
+    assertTrue(engine.getCurrentPlayer() === 'white');
+
+    var movesList = "c4cbl;d4abr;c3ctl;c3ctl;c4cbl;e5cbr;b1ctl;b2ctr;c4cbl;c3";
+    var move = movesList.split(";");
+
+    for (var key = 0; key < move.length; key++) {
+        engine.play(move[key].substring(0,2));
+        var clockwise     = (move[key].charAt(2) === 'c');
+        var lineOffset    = (move[key].charAt(3) === 't') ? 0 : 1;
+        var columnOffset  = (move[key].charAt(4) === 'l') ? 0 : 1;
+        engine.rotate(lineOffset, columnOffset, clockwise);
+        engine.changeTurn();
+    }
+
+    assertTrue(engine.getWinner() === 'black');
+};
