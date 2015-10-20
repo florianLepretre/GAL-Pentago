@@ -7,7 +7,7 @@ function NotEmptyException(message) {
     this.name = "NotEmptyException";
 }
 
-var Engine = function () { // jshint ignore:line
+var Engine = function (player2Starts) { // jshint ignore:line
     "use strict";
 
     var that = this,
@@ -125,12 +125,12 @@ var Engine = function () { // jshint ignore:line
         return arr;
     };
 
-    var init = function () {
+    var init = function (player2Starts) {
         balls = 0;
         boardSize = 6;
         player1 = 'white';
         player2 = 'black';
-        currentPlayer = player1;
+        currentPlayer = (player2Starts) ? player2 : player1;
         winner = false;
 
         board = create2DArray(boardSize);
@@ -195,5 +195,5 @@ var Engine = function () { // jshint ignore:line
         board[line][column] = player;
     };
 
-    init();
+    init(player2Starts);
 };

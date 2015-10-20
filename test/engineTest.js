@@ -190,6 +190,6 @@ EngineTest.prototype.testBlackWins = function () {
 };
 
 EngineTest.prototype.testBlackStarts = function () {
-    var engine = new Engine(false);
+    var engine = new Engine(true);
     assertTrue(engine.getCurrentPlayer() === 'black');
 };
