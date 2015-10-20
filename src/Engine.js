@@ -14,7 +14,8 @@ var Engine = function () {
         board,
         player1,
         player2,
-        currentPlayer;
+        currentPlayer,
+        winner;
 
     var initBoard = function () {
         var line, column;
@@ -23,6 +24,75 @@ var Engine = function () {
                 board[line][column] = 0;
             }
         }
+    };
+
+    var checkHorizontal = function (line, column, offset) {
+        if (board[line][column + offset] === currentPlayer) {
+            return 1 + checkHorizontal(line, column + offset, offset);
+        }
+        return 0;
+    };
+
+    var checkVertical = function (line, column, offset) {
+        if (!board[line + offset]) {
+            return 0;
+        }
+        if (board[line + offset][column] === currentPlayer) {
+            return 1 + checkVertical(line + offset, column, offset);
+        }
+        return 0;
+    };
+
+    var checkDiagonal1 = function (line, column, offset) {
+        if (!board[line - offset]) {
+            return 0;
+        }
+        if (board[line - offset][column + offset] === currentPlayer) {
+            return 1 + checkDiagonal1(line - offset, column + offset, offset);
+        }
+        return 0;
+    };
+
+    var checkDiagonal2 = function (line, column, offset) {
+        if (!board[line + offset]) {
+            return 0;
+        }
+        if (board[line + offset][column + offset] === currentPlayer) {
+            return 1 + checkDiagonal2(line + offset, column + offset, offset);
+        }
+        return 0;
+    };
+
+    var checkLines = function (line, column) {
+        var horizontalCount = checkHorizontal(line, column, 1) + checkHorizontal(line, column, -1);
+        if (horizontalCount >= 4) {
+            winner = currentPlayer;
+            return;
+        }
+        var verticalCount = checkVertical(line, column, 1) + checkVertical(line, column, -1);
+        if (verticalCount >= 4) {
+            winner = currentPlayer;
+        }
+    };
+
+    var checkDiagonals = function (line, column) {
+        var diagonal1Count = checkDiagonal1(line, column, 1) + checkDiagonal1(line, column, -1);
+        if (diagonal1Count >= 4) {
+            winner = currentPlayer;
+            return;
+        }
+        var diagonal2Count = checkDiagonal2(line, column, 1) + checkDiagonal2(line, column, -1);
+        if (diagonal2Count >= 4) {
+            winner = currentPlayer;
+        }
+    };
+
+    var checkWin = function (line, column) {
+        checkLines(line, column);
+        if (winner) {
+            return;
+        }
+        checkDiagonals(line, column);
     };
 
     var computeRotationCoordinates = function (line, column, lineOffset, columnOffset, clockWise) {
@@ -59,6 +129,7 @@ var Engine = function () {
         player1 = 'white';
         player2 = 'black';
         currentPlayer = player1;
+        winner = false;
 
         board = create2DArray(boardSize);
         initBoard();
@@ -88,6 +159,10 @@ var Engine = function () {
         return currentPlayer;
     };
 
+    this.getWinner = function () {
+        return winner;
+    };
+
     this.play = function (coordinates) {
         var line = coordinates.charCodeAt(1) - 49;
         var column = coordinates.charCodeAt(0) - 97;
@@ -98,6 +173,7 @@ var Engine = function () {
 
         this.setCase(line, column, this.getCurrentPlayer());
         this.addBall();
+        checkWin(line, column);
     };
 
     this.rotate = function (lineOffset, columnOffset, clockwise) {
