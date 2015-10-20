@@ -29,7 +29,7 @@ var Engine = function () {
         if (clockWise) {
             return (that.getCase((2 - column) + lineOffset, line + columnOffset));
         }
-        return (that.getCase(column + columnOffset, (2 - line) + columnOffset));
+        return (that.getCase(column + lineOffset, (2 - line) + columnOffset));
     };
 
     var create2DArray = function (size) {
