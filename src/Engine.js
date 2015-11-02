@@ -11,11 +11,15 @@ var Engine = function (player2Starts, mode) { // jshint ignore:line
     "use strict";
 
     var that = this,
-        balls,
+        balls = 0,
         boardSize,
         board,
         currentPlayer,
-        nbPlayers,
+        player1,
+        player2,
+        player3,
+        player4,
+        playerIndex = 0,
         winner = false;
 
     var initBoard = function () {
@@ -125,30 +129,31 @@ var Engine = function (player2Starts, mode) { // jshint ignore:line
     };
 
     var initNormal = function (player2Starts) {
-        balls = 0;
         boardSize = 6;
-        currentPlayer = player2Starts ? 2 : 1;
-        nbPlayers = 2;
+        player1 = 'white';
+        player2 = 'black';
+        player3 = 0;
+        player4 = 0;
+        currentPlayer = player2Starts ? player2 : player1;
 
         board = create2DArray(boardSize);
         initBoard();
     };
 
     var initXL3 = function () {
-        balls = 0;
         boardSize = 9;
-        currentPlayer = 1;
-        nbPlayers = 3;
 
         board = create2DArray(boardSize);
         initBoard();
     };
 
     var initXL4 = function () {
-        balls = 0;
         boardSize = 9;
-        currentPlayer = 1;
-        nbPlayers = 4;
+        player1 = 'red';
+        player2 = 'yellow';
+        player3 = 'green';
+        player4 = 'blue';
+        currentPlayer = player1;
 
         board = create2DArray(boardSize);
         initBoard();
@@ -159,7 +164,13 @@ var Engine = function (player2Starts, mode) { // jshint ignore:line
     };
 
     this.changeTurn = function () {
-        currentPlayer = (currentPlayer + 1 > nbPlayers) ? 1 : currentPlayer + 1;
+        var playerList = [player1, player2, player3, player4];
+
+        do {
+            playerIndex = (playerIndex + 1 > 3) ? 0 : playerIndex + 1;
+        } while (playerList[playerIndex] === 0);
+
+        currentPlayer = playerList[playerIndex];
     };
 
     this.getBalls = function () {
@@ -212,11 +223,26 @@ var Engine = function (player2Starts, mode) { // jshint ignore:line
         board[line][column] = player;
     };
 
-    if (mode === 'XL3') {
+    this.setPlayers = function (color1, color2, color3) {
+        player1 = color1;
+        player2 = color2;
+        player3 = color3;
+        player4 = 0;
+        currentPlayer = player1;
+    };
+
+    /* Init engine */
+    switch (mode) {
+    case 'XL3':
         initXL3();
-    } else if (mode === 'XL4') {
+        break;
+
+    case 'XL4':
         initXL4();
-    } else {
+        break;
+
+    default:
         initNormal(player2Starts);
+        break;
     }
 };
