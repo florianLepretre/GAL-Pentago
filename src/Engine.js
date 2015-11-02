@@ -7,17 +7,16 @@ function NotEmptyException(message) {
     this.name = "NotEmptyException";
 }
 
-var Engine = function (player2Starts) { // jshint ignore:line
+var Engine = function (player2Starts, mode) { // jshint ignore:line
     "use strict";
 
     var that = this,
         balls,
         boardSize,
         board,
-        player1,
-        player2,
         currentPlayer,
-        winner;
+        nbPlayers,
+        winner = false;
 
     var initBoard = function () {
         var line, column;
@@ -125,13 +124,31 @@ var Engine = function (player2Starts) { // jshint ignore:line
         return arr;
     };
 
-    var init = function (player2Starts) {
+    var initNormal = function (player2Starts) {
         balls = 0;
         boardSize = 6;
-        player1 = 'white';
-        player2 = 'black';
-        currentPlayer = player2Starts ? player2 : player1;
-        winner = false;
+        currentPlayer = player2Starts ? 2 : 1;
+        nbPlayers = 2;
+
+        board = create2DArray(boardSize);
+        initBoard();
+    };
+
+    var initXL3 = function () {
+        balls = 0;
+        boardSize = 9;
+        currentPlayer = 1;
+        nbPlayers = 3;
+
+        board = create2DArray(boardSize);
+        initBoard();
+    };
+
+    var initXL4 = function () {
+        balls = 0;
+        boardSize = 9;
+        currentPlayer = 1;
+        nbPlayers = 4;
 
         board = create2DArray(boardSize);
         initBoard();
@@ -142,7 +159,7 @@ var Engine = function (player2Starts) { // jshint ignore:line
     };
 
     this.changeTurn = function () {
-        currentPlayer = (currentPlayer === player1) ? player2 : player1;
+        currentPlayer = (currentPlayer + 1 > nbPlayers) ? 1 : currentPlayer + 1;
     };
 
     this.getBalls = function () {
@@ -195,5 +212,11 @@ var Engine = function (player2Starts) { // jshint ignore:line
         board[line][column] = player;
     };
 
-    init(player2Starts);
+    if (mode === 'XL3') {
+        initXL3();
+    } else if (mode === 'XL4') {
+        initXL4();
+    } else {
+        initNormal(player2Starts);
+    }
 };

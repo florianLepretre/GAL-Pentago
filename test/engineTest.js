@@ -15,13 +15,13 @@ EngineTest.prototype.testEmptyBoard = function () {
 
 EngineTest.prototype.testWhiteBegins = function () {
     var engine = new Engine();
-    assertTrue(engine.getCurrentPlayer() === 'white');
+    assertTrue(engine.getCurrentPlayer() === 1);
 };
 
 EngineTest.prototype.testWhitePlays = function () {
     var engine = new Engine();
     engine.play('a1');
-    assertTrue(engine.getCase(0, 0) === 'white');
+    assertTrue(engine.getCase(0, 0) === 1);
 };
 
 EngineTest.prototype.testBallCount = function () {
@@ -35,13 +35,13 @@ EngineTest.prototype.testRotation = function () {
     engine.play('a1');
     engine.rotate(0, 0, true);
     assertTrue(engine.getCase(0, 0) == 0);
-    assertTrue(engine.getCase(0, 2) === 'white');
+    assertTrue(engine.getCase(0, 2) === 1);
 };
 
 EngineTest.prototype.testBlackTurn = function () {
     var engine = new Engine();
     engine.changeTurn();
-    assertTrue(engine.getCurrentPlayer() === 'black');
+    assertTrue(engine.getCurrentPlayer() === 2);
 };
 
 EngineTest.prototype.testBlackPlays = function () {
@@ -50,7 +50,7 @@ EngineTest.prototype.testBlackPlays = function () {
     engine.rotate(0, 0, true);
     engine.changeTurn();
     engine.play('a1');
-    assertTrue(engine.getCase(0, 0) === 'black');
+    assertTrue(engine.getCase(0, 0) === 2);
     assertTrue(engine.getBalls() == 2);
 };
 
@@ -61,8 +61,8 @@ EngineTest.prototype.testBlackRotation = function () {
     engine.changeTurn();
     engine.play('a1');
     engine.rotate(0, 0, false);
-    assertTrue(engine.getCase(0, 0) === 'white');
-    assertTrue(engine.getCase(2, 0) === 'black');
+    assertTrue(engine.getCase(0, 0) === 1);
+    assertTrue(engine.getCase(2, 0) === 2);
 };
 
 EngineTest.prototype.testWhitePlaysWrong = function () {
@@ -79,7 +79,7 @@ EngineTest.prototype.testWhitePlaysWrong = function () {
     assertException(function () {
         engine.play('a3')
     }, "NotEmptyException");
-    assertException(engine.getCurrentPlayer() === 'white');
+    assertException(engine.getCurrentPlayer() === 1);
 };
 
 EngineTest.prototype.testWhiteBlackPlay = function () {
@@ -119,15 +119,15 @@ EngineTest.prototype.testWhiteBlackPlay = function () {
 
     assertTrue(engine.getBalls() == 8);
 
-    assertTrue(engine.getCase(0,0) === 'white');
-    assertTrue(engine.getCase(0,1) === 'white');
-    assertTrue(engine.getCase(0,2) === 'white');
-    assertTrue(engine.getCase(0,3) === 'white');
+    assertTrue(engine.getCase(0,0) === 1);
+    assertTrue(engine.getCase(0,1) === 1);
+    assertTrue(engine.getCase(0,2) === 1);
+    assertTrue(engine.getCase(0,3) === 1);
 
-    assertTrue(engine.getCase(2,0) === 'black');
-    assertTrue(engine.getCase(2,1) === 'black');
-    assertTrue(engine.getCase(2,2) === 'black');
-    assertTrue(engine.getCase(2,3) === 'black');
+    assertTrue(engine.getCase(2,0) === 2);
+    assertTrue(engine.getCase(2,1) === 2);
+    assertTrue(engine.getCase(2,2) === 2);
+    assertTrue(engine.getCase(2,3) === 2);
 };
 
 EngineTest.prototype.testWhiteWins = function () {
@@ -166,13 +166,13 @@ EngineTest.prototype.testWhiteWins = function () {
     engine.changeTurn();
 
     engine.play('e1');
-    assertTrue(engine.getWinner() === 'white');
+    assertTrue(engine.getWinner() === 1);
 };
 
 EngineTest.prototype.testBlackWins = function () {
     var engine = new Engine();
 
-    assertTrue(engine.getCurrentPlayer() === 'white');
+    assertTrue(engine.getCurrentPlayer() === 1);
 
     var movesList = "c4cbl;d4abr;c3ctl;c3ctl;c4cbl;e5cbr;b1ctl;b2ctr;c4cbl;c3";
     var move = movesList.split(";");
@@ -186,12 +186,12 @@ EngineTest.prototype.testBlackWins = function () {
         engine.changeTurn();
     }
 
-    assertTrue(engine.getWinner() === 'black');
+    assertTrue(engine.getWinner() === 2);
 };
 
 EngineTest.prototype.testBlackStarts = function () {
     var engine = new Engine(true);
-    assertTrue(engine.getCurrentPlayer() === 'black');
+    assertTrue(engine.getCurrentPlayer() === 2);
 };
 
 EngineTest.prototype.testTieGame = function () {
@@ -217,7 +217,7 @@ EngineTest.prototype.testTieGame = function () {
 
 EngineTest.prototype.testXL = function (){
     var mode = 'XL';
-    var engine = new Engine(mode);
+    var engine = new Engine(false, mode);
     var boardSize = engine.getBoardSize();
 
     assertTrue(engine.getBalls() === 0);
