@@ -130,7 +130,7 @@ var Engine = function (player2Starts) { // jshint ignore:line
         boardSize = 6;
         player1 = 'white';
         player2 = 'black';
-        currentPlayer = (player2Starts) ? player2 : player1;
+        currentPlayer = player2Starts ? player2 : player1;
         winner = false;
 
         board = create2DArray(boardSize);

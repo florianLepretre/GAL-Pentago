@@ -7,7 +7,7 @@ EngineTest.prototype.testEmptyBoard = function () {
     assertTrue(engine.getBalls() == 0);
 
     for (var i = 0; i < boardSize; i++) {
-        for (var j = 0; i < boardSize; i++) {
+        for (var j = 0; j < boardSize; j++) {
             assertTrue(engine.getCase(i, j) == 0);
         }
     }
@@ -195,6 +195,7 @@ EngineTest.prototype.testBlackStarts = function () {
 };
 
 EngineTest.prototype.testTieGame = function () {
+    var mode = {player2Starts: false, boardSize: 6, player3: '', player4: 'blue'};
     var engine = new Engine();
     var movesList = "a1cbl;d1cbr;b1cbl;e1cbr;c1cbl;f1cbr;a2cbl;d2cbr;b2cbl;e2cbr;c2cbl;f2cbr;" +
                     "a3cbl;d3cbr;b3cbl;e3cbr;c3cbl;f3cbr;b5ctl;a4ctr;e4ctl;b4ctr;f4ctl;d4ctr;" +
@@ -212,4 +213,20 @@ EngineTest.prototype.testTieGame = function () {
 
     assertTrue(engine.getBalls() == 36);
     assertTrue(engine.getWinner() == false);
+};
+
+EngineTest.prototype.testXL = function (){
+    var mode = 'XL';
+    var engine = new Engine(mode);
+    var boardSize = engine.getBoardSize();
+
+    assertTrue(engine.getBalls() === 0);
+
+    for (var i = 0; i < boardSize; i++) {
+        for (var j = 0; j < boardSize; j++) {
+            assertTrue(engine.getCase(i, j) === 0);
+        }
+    }
+
+    assertTrue(engine.getCurrentPlayer() === 1);
 };
