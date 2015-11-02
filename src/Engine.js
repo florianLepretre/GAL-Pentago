@@ -196,7 +196,7 @@ var Engine = function (player2Starts, mode) { // jshint ignore:line
     };
 
     this.rotate = function (lineOffset, columnOffset, clockwise) {
-        var size2 = this.getBoardSize() / 2;
+        var size2 = 3;
         var line, column;
 
         var tmpArray = rotateSubArray(size2, lineOffset * size2, columnOffset * size2, clockwise);

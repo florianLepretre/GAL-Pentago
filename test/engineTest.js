@@ -216,11 +216,12 @@ EngineTest.prototype.testTieGame = function () {
 };
 
 EngineTest.prototype.testXL = function (){
-    var mode = 'XL';
+    var mode = 'XL4';
     var engine = new Engine(false, mode);
     var boardSize = engine.getBoardSize();
 
     assertTrue(engine.getBalls() === 0);
+    assertTrue(boardSize == 9);
 
     for (var i = 0; i < boardSize; i++) {
         for (var j = 0; j < boardSize; j++) {
@@ -229,4 +230,31 @@ EngineTest.prototype.testXL = function (){
     }
 
     assertTrue(engine.getCurrentPlayer() === 1);
+};
+
+EngineTest.prototype.testFourPlayers = function () {
+    var engine = new Engine(false, 'XL4');
+
+    engine.play('a1');
+    engine.rotate(2, 0, true);
+    engine.changeTurn();
+
+    engine.play('b1');
+    engine.rotate(2, 0, true);
+    engine.changeTurn();
+
+    engine.play('c1');
+    engine.rotate(2, 0, true);
+    engine.changeTurn();
+
+    engine.play('d1');
+    engine.rotate(2, 1, false);
+    engine.changeTurn();
+
+    assertTrue(engine.getBalls() === 4);
+
+    assertTrue(engine.getCase(0,0) === 1);
+    assertTrue(engine.getCase(0,1) === 2);
+    assertTrue(engine.getCase(0,2) === 3);
+    assertTrue(engine.getCase(0,3) === 4);
 };
