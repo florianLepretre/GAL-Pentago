@@ -205,3 +205,26 @@ EngineTest.prototype.testThreePlayers = function () {
     assertTrue(engine.getCase(0,1) === 'blue');
     assertTrue(engine.getCase(0,2) === 'red');
 };
+
+EngineTest.prototype.testTwoPlayersRandom = function () {
+    var engine = new Engine();
+
+    while (!engine.getWinner() || engine.getBalls() < 35){
+        var line         = Math.floor((Math.random() * 100) % 6),
+            column       = Math.floor((Math.random() * 100) % 6),
+            lineOffset   = Math.floor((Math.random() * 100) % 2),
+            columnOffset = Math.floor((Math.random() * 100) % 2),
+            clockwise    = Math.floor((Math.random() * 11)) >= 5;
+
+        var move = String.fromCharCode(97 + column) + (line + 1);
+
+        try {
+            engine.play(move, lineOffset, columnOffset, clockwise);
+        }
+        catch (NotEmptyException) {
+            continue;
+        }
+    }
+
+    console.log('Winner is : ' + engine.getWinner());
+};
