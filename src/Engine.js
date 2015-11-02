@@ -193,7 +193,7 @@ var Engine = function (player2Starts, mode) { // jshint ignore:line
         return winner;
     };
 
-    this.play = function (coordinates) {
+    this.play = function (coordinates, lineOffset, columnOffset, clockwise) {
         var line = coordinates.charCodeAt(1) - 49;
         var column = coordinates.charCodeAt(0) - 97;
 
@@ -204,6 +204,11 @@ var Engine = function (player2Starts, mode) { // jshint ignore:line
         this.setCase(line, column, this.getCurrentPlayer());
         this.addBall();
         checkWin(line, column);
+
+        if (!winner) {
+            this.rotate(lineOffset, columnOffset, clockwise);
+            this.changeTurn();
+        }
     };
 
     this.rotate = function (lineOffset, columnOffset, clockwise) {

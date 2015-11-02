@@ -20,20 +20,19 @@ EngineTest.prototype.testWhiteBegins = function () {
 
 EngineTest.prototype.testWhitePlays = function () {
     var engine = new Engine();
-    engine.play('a1');
+    engine.play('a1', 1, 1, false);
     assertTrue(engine.getCase(0, 0) === 'white');
 };
 
 EngineTest.prototype.testBallCount = function () {
     var engine = new Engine();
-    engine.play('a1');
+    engine.play('a1', null, null, null);
     assertTrue(engine.getBalls() == 1);
 };
 
 EngineTest.prototype.testRotation = function () {
     var engine = new Engine();
-    engine.play('a1');
-    engine.rotate(0, 0, true);
+    engine.play('a1', 0, 0, true);
     assertTrue(engine.getCase(0, 0) == 0);
     assertTrue(engine.getCase(0, 2) === 'white');
 };
@@ -46,21 +45,16 @@ EngineTest.prototype.testBlackTurn = function () {
 
 EngineTest.prototype.testBlackPlays = function () {
     var engine = new Engine();
-    engine.play('a1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
-    engine.play('a1');
+    engine.play('a1', 0, 0, true);
+    engine.play('a1', 1, 1, false);
     assertTrue(engine.getCase(0, 0) === 'black');
     assertTrue(engine.getBalls() == 2);
 };
 
 EngineTest.prototype.testBlackRotation = function () {
     var engine = new Engine();
-    engine.play('a1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
-    engine.play('a1');
-    engine.rotate(0, 0, false);
+    engine.play('a1', 0, 0, true);
+    engine.play('a1', 0, 0, false);
     assertTrue(engine.getCase(0, 0) === 'white');
     assertTrue(engine.getCase(2, 0) === 'black');
 };
@@ -68,16 +62,11 @@ EngineTest.prototype.testBlackRotation = function () {
 EngineTest.prototype.testWhitePlaysWrong = function () {
     var engine = new Engine();
 
-    engine.play('a1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
-
-    engine.play('a1');
-    engine.rotate(0, 0, false);
-    engine.changeTurn();
+    engine.play('a1', 0, 0, true);
+    engine.play('a1', 0, 0, false);
 
     assertException(function () {
-        engine.play('a3')
+        engine.play('a3', null, null, null)
     }, "NotEmptyException");
     assertException(engine.getCurrentPlayer() === 'white');
 };
@@ -85,37 +74,15 @@ EngineTest.prototype.testWhitePlaysWrong = function () {
 EngineTest.prototype.testWhiteBlackPlay = function () {
     var engine = new Engine();
 
-    engine.play('a1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
+    engine.play('a1',0, 0, true);
+    engine.play('a1',0, 0, false);
+    engine.play('b1',0, 0, true);
+    engine.play('a2',0, 0, false);
+    engine.play('c1',0, 0, true);
+    engine.play('a3',0, 0, false);
+    engine.play('d1',0, 1, false);
+    engine.play('f3',0, 1, true);
 
-    engine.play('a1');
-    engine.rotate(0, 0, false);
-    engine.changeTurn();
-
-    engine.play('b1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
-
-    engine.play('a2');
-    engine.rotate(0, 0, false);
-    engine.changeTurn();
-
-    engine.play('c1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
-
-    engine.play('a3');
-    engine.rotate(0, 0, false);
-    engine.changeTurn();
-
-    engine.play('d1');
-    engine.rotate(0, 1, false);
-    engine.changeTurn();
-
-    engine.play('f3');
-    engine.rotate(0, 1, true);
-    engine.changeTurn();
 
     assertTrue(engine.getBalls() == 8);
 
@@ -133,39 +100,16 @@ EngineTest.prototype.testWhiteBlackPlay = function () {
 EngineTest.prototype.testWhiteWins = function () {
     var engine = new Engine();
 
-    engine.play('a1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
+    engine.play('a1', 0, 0, true);
+    engine.play('a1',0, 0, false);
+    engine.play('b1',0, 0, true);
+    engine.play('a2',0, 0, false);
+    engine.play('c1',0, 0, true);
+    engine.play('a3',0, 0, false);
+    engine.play('d1',0, 1, false);
+    engine.play('f3',0, 1, true);
 
-    engine.play('a1');
-    engine.rotate(0, 0, false);
-    engine.changeTurn();
-
-    engine.play('b1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
-
-    engine.play('a2');
-    engine.rotate(0, 0, false);
-    engine.changeTurn();
-
-    engine.play('c1');
-    engine.rotate(0, 0, true);
-    engine.changeTurn();
-
-    engine.play('a3');
-    engine.rotate(0, 0, false);
-    engine.changeTurn();
-
-    engine.play('d1');
-    engine.rotate(0, 1, false);
-    engine.changeTurn();
-
-    engine.play('f3');
-    engine.rotate(0, 1, true);
-    engine.changeTurn();
-
-    engine.play('e1');
+    engine.play('e1', null, null, null);
     assertTrue(engine.getWinner() === 'white');
 };
 
@@ -178,12 +122,11 @@ EngineTest.prototype.testBlackWins = function () {
     var move = movesList.split(";");
 
     for (var key = 0; key < move.length; key++) {
-        engine.play(move[key].substring(0,2));
         var clockwise     = (move[key].charAt(2) === 'c');
         var lineOffset    = (move[key].charAt(3) === 't') ? 0 : 1;
         var columnOffset  = (move[key].charAt(4) === 'l') ? 0 : 1;
-        engine.rotate(lineOffset, columnOffset, clockwise);
-        engine.changeTurn();
+
+        engine.play(move[key].substring(0,2), lineOffset, columnOffset, clockwise);
     }
 
     assertTrue(engine.getWinner() === 'black');
@@ -203,12 +146,11 @@ EngineTest.prototype.testTieGame = function () {
     var move = movesList.split(";");
 
     for (var key = 0; key < move.length; key++) {
-        engine.play(move[key].substring(0,2));
         var clockwise     = (move[key].charAt(2) === 'c');
         var lineOffset    = (move[key].charAt(3) === 't') ? 0 : 1;
         var columnOffset  = (move[key].charAt(4) === 'l') ? 0 : 1;
-        engine.rotate(lineOffset, columnOffset, clockwise);
-        engine.changeTurn();
+
+        engine.play(move[key].substring(0,2), lineOffset, columnOffset, clockwise);
     }
 
     assertTrue(engine.getBalls() == 36);
@@ -235,21 +177,10 @@ EngineTest.prototype.testXL = function (){
 EngineTest.prototype.testFourPlayers = function () {
     var engine = new Engine(false, 'XL4');
 
-    engine.play('a1');
-    engine.rotate(2, 0, true);
-    engine.changeTurn();
-
-    engine.play('b1');
-    engine.rotate(2, 0, true);
-    engine.changeTurn();
-
-    engine.play('c1');
-    engine.rotate(2, 0, true);
-    engine.changeTurn();
-
-    engine.play('i9');
-    engine.rotate(2, 2, false);
-    engine.changeTurn();
+    engine.play('a1', 2, 0, true);
+    engine.play('b1', 2, 0, true);
+    engine.play('c1', 2, 0, true);
+    engine.play('i9', 2, 2, false);
 
     assertTrue(engine.getBalls() === 4);
 
@@ -264,17 +195,9 @@ EngineTest.prototype.testThreePlayers = function () {
 
     engine.setPlayers('yellow', 'blue', 'red');
 
-    engine.play('a1');
-    engine.rotate(2, 0, true);
-    engine.changeTurn();
-
-    engine.play('b1');
-    engine.rotate(2, 0, true);
-    engine.changeTurn();
-
-    engine.play('c1');
-    engine.rotate(2, 0, true);
-    engine.changeTurn();
+    engine.play('a1', 2, 0, true);
+    engine.play('b1', 2, 0, true);
+    engine.play('c1', 2, 0, true);
 
     assertTrue(engine.getBalls() === 3);
 
