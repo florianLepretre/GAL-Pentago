@@ -258,3 +258,29 @@ EngineTest.prototype.testFourPlayers = function () {
     assertTrue(engine.getCase(0,2) === 3);
     assertTrue(engine.getCase(0,3) === 4);
 };
+
+EngineTest.prototype.testThreePlayers = function () {
+    var engine = new Engine(false, 'XL3');
+
+    engine.setPlayer(1, 2);
+    engine.setPlayer(2, 4);
+    engine.setPlayer(3, 1);
+
+    engine.play('a1');
+    engine.rotate(2, 0, true);
+    engine.changeTurn();
+
+    engine.play('b1');
+    engine.rotate(2, 0, true);
+    engine.changeTurn();
+
+    engine.play('c1');
+    engine.rotate(2, 0, true);
+    engine.changeTurn();
+
+    assertTrue(engine.getBalls() === 3);
+
+    assertTrue(engine.getCase(0,0) === 2);
+    assertTrue(engine.getCase(0,1) === 4);
+    assertTrue(engine.getCase(0,2) === 3);
+};
